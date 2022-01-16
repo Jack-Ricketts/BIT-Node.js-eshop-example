@@ -44,6 +44,21 @@ const jsonParse = require('./lib/jsonParse.js');
 
     console.log(prekiuInfo);
 
+    let totalInStock = 0;
+    let totalSold = 0;
+    let totalPriceValue = 0;
+
+    for (let i = 0; i < prekiuInfo.length; i++){
+        console.log(`Univermagas pardavime turi: ${prekiuInfo[i].name}; ${prekiuInfo[i].price.value} ${prekiuInfo[i].price.currency}; parduota: ${prekiuInfo[i].sold}; likutis: ${prekiuInfo[i].inStock}`);
+        totalInStock += prekiuInfo[i].inStock;
+        totalSold += prekiuInfo[i].sold;
+        totalPriceValue += prekiuInfo[i].price.value
+    }
+    
+    console.log(`Turimu prekiu sandelyje: ${totalInStock}`);
+    console.log(`Parduotu prekiu: ${totalSold}`);
+    console.log(`Suprekiauta suma: ${totalPriceValue} ${prekiuInfo[0].price.currency}`);
+    
 })();
 
 
