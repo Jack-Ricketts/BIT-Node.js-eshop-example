@@ -1,9 +1,9 @@
-{
-    "name": "                              ",
+[{
+    "name": "Keturrate masina",
     "price": {
         "value": 100.00,
         "currency": "Eur"
     },
     "inStock": 3,
     "sold": 3
-}
+}]
