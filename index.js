@@ -1,15 +1,16 @@
-console.clear();
-
-const readFile = require('./lib/readFile.js');
-const jsonParse = require('./lib/jsonParse.js');
-const printList = require('./lib/printList.js');
+const inStockTotalCount = require("./lib/inStockTotalCount.js");
+const soldTotalCount = require("./lib/soldTotalCount.js");
+const profit = require("./lib/profit.js");
+const IsValid = require("./lib/IsValid.js");
+const jsonParse = require("./lib/jsonParse.js");
+const printList = require("./lib/printList.js");
+const readFile = require("./lib/readFile.js");
 
 (async () => {
-
-    const prekes = [
-        'arbata', 
-        'kvepalai', 
-        'masina', 
+    const goods = [
+        'arbata',
+        'kvepalai',
+        'masina',
         'masina-wrong-1',
         'masina-wrong-2',
         'masina-wrong-3',
@@ -46,38 +47,57 @@ const printList = require('./lib/printList.js');
         'masina-wrong-34',
         'masina-wrong-35',
         'masina-wrong-36',
+        '',
+        5,
+        true,
+        false,
+        null,
+        () => { },
+        [],
+        {},
+        undefined,
         'masina-wrong-37',
     ];
 
-    const prekiuInfo = [];
+    const availableCurrency = ['Eur', 'Usd', 'Lit'];
+    const goodsInfo = [];
 
-    for (const preke of prekes){
-        const content = await readFile(preke);
-
-        if(typeof content === 'string' && content !== ''){
-            if((jsonParse(content)[0] !== true)){
-                prekiuInfo.push(jsonParse(content)[1]);
-            } else {
-                console.log('KLAIDA PARSINANT', preke);
-            }
-        } else {
-            console.log('FAILAS NEEGZISTUOJA', preke);
+    for (const item of goods) {
+        if (typeof item !== 'string' || item === '') {
+            continue;
         }
-        
+        const itemText = await readFile(item);
+        if (typeof itemText !== 'string' || itemText === '') {
+            continue;
+        }
+        const itemObj = jsonParse(itemText);
+        if (itemObj === false) {
+            continue;
+        }
+        const { name, price, inStock, sold } = itemObj;
+        if (!IsValid.correctObject(itemObj, 4)
+            || !IsValid.nonEmptyString(name)
+            || !IsValid.correctObject(price, 2)
+            || !IsValid.nonNegativeNumber(price.value)
+            || !IsValid.nonEmptyString(price.currency)
+            || !availableCurrency.includes(price.currency)
+            || !IsValid.nonNegativeInteger(inStock)
+            || !IsValid.nonNegativeInteger(sold)) {
+            continue;
+        }
+        goodsInfo.push(itemObj);
     }
+
+    
 
     console.log('"Univermagas" pardavime turi:');
     console.log('-----------------------------');
-    console.log(printList(prekiuInfo)); 
+    console.log(printList(goodsInfo));
     console.log('-----------------------------');
-    console.log('Parduotuves suvestine:');  
-    console.log('turimu prekiu sandelyje: [total kiekis]');  
-    console.log('parduotu prekiu: [total kiekis]');  
-    console.log('suprekiauta suma: [total pinigu] [valiuta]');  
-    console.log('galimu pardavimu: [total pinigu] [valiuta]');  
-    console.log('maksimalus galima parduotuves apyvarta: [total pinigu] [valiuta]');  
-
+    console.log('Parduotuves suvestine:');
+    console.log(`- turimu prekiu sandelyje: ${inStockTotalCount(goodsInfo)}`);
+    console.log(`- parduotu prekiu: ${soldTotalCount(goodsInfo)}`);
+    console.log(`- suprekiauta suma: ${profit(goodsInfo)} [valiuta]`);
+    console.log('- galimu pardavimu: [total pinigu] [valiuta]');
+    console.log('- maksimalus galima parduotuves apyvarta: [total pinigu] [valiuta]');
 })();
-
-
-
