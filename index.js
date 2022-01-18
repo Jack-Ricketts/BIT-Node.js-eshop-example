@@ -40,6 +40,13 @@ const printList = require('./lib/printList.js');
         'masina-wrong-28',
         'masina-wrong-29',
         'masina-wrong-30',
+        'masina-wrong-31',
+        'masina-wrong-32',
+        'masina-wrong-33',
+        'masina-wrong-34',
+        'masina-wrong-35',
+        'masina-wrong-36',
+        'masina-wrong-37',
     ];
 
     const prekiuInfo = [];
@@ -56,12 +63,20 @@ const printList = require('./lib/printList.js');
         } else {
             console.log('FAILAS NEEGZISTUOJA', preke);
         }
+        
     }
+
     console.log('"Univermagas" pardavime turi:');
     console.log('-----------------------------');
     console.log(printList(prekiuInfo)); 
     console.log('-----------------------------');
-    
+    console.log('Parduotuves suvestine:');  
+    console.log('turimu prekiu sandelyje: [total kiekis]');  
+    console.log('parduotu prekiu: [total kiekis]');  
+    console.log('suprekiauta suma: [total pinigu] [valiuta]');  
+    console.log('galimu pardavimu: [total pinigu] [valiuta]');  
+    console.log('maksimalus galima parduotuves apyvarta: [total pinigu] [valiuta]');  
+
 })();
 
 
