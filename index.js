@@ -1,6 +1,8 @@
 const inStockTotalCount = require("./lib/inStockTotalCount.js");
 const soldTotalCount = require("./lib/soldTotalCount.js");
 const profit = require("./lib/profit.js");
+const futureProfit = require("./lib/futureProfit.js");
+const maxTurnover = require("./lib/maxTurnover.js");
 const IsValid = require("./lib/IsValid.js");
 const jsonParse = require("./lib/jsonParse.js");
 const printList = require("./lib/printList.js");
@@ -88,8 +90,6 @@ const readFile = require("./lib/readFile.js");
         goodsInfo.push(itemObj);
     }
 
-    
-
     console.log('"Univermagas" pardavime turi:');
     console.log('-----------------------------');
     console.log(printList(goodsInfo));
@@ -97,7 +97,8 @@ const readFile = require("./lib/readFile.js");
     console.log('Parduotuves suvestine:');
     console.log(`- turimu prekiu sandelyje: ${inStockTotalCount(goodsInfo)}`);
     console.log(`- parduotu prekiu: ${soldTotalCount(goodsInfo)}`);
-    console.log(`- suprekiauta suma: ${profit(goodsInfo)} [valiuta]`);
-    console.log('- galimu pardavimu: [total pinigu] [valiuta]');
-    console.log('- maksimalus galima parduotuves apyvarta: [total pinigu] [valiuta]');
+    console.log(`- suprekiauta suma: ${profit(goodsInfo)}`);
+    console.log(`- galimu pardavimu: ${futureProfit(goodsInfo)}`);
+    console.log(`- maksimali galima parduotuves apyvarta: ${maxTurnover(goodsInfo)}`);
+
 })();
